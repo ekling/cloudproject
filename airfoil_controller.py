@@ -7,13 +7,26 @@ from flask import Flask, jsonify, request, redirect, render_template
 app = Flask(__name__)
 
 def divide_input(start, stop, steps):
-    diff = int((stop-start)/steps)
+    diff = 0
+
+    if start == stop:
+        return [start]
+
+    try:
+        diff = int((stop-start)/steps)
+
+    except ZeroDivisionError as e:
+        print e, "Number of steps set to 1"
+
+    if diff == 0:
+        diff = 1
+
     angles = []
 
-    for i in range(start, steps+1):
-        if i*diff > stop:
+    for i in range(0, steps+1):
+        if start + i * diff > stop:
             break
-        angles.append(i*diff)
+        angles.append(start + i*diff)
 
     return angles
 
