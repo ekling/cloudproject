@@ -5,6 +5,22 @@ from celery import Celery
 
 celery = Celery('airfoil', broker='amqp://', backend='amqp')
 
+def calcRatio():
+    numOfRatios = 0
+    totRatio = 0.0
+    for filename in os.listdir('/home/emil/Project/naca_airfoil/msh/'):
+        if filename.endswith(".m"):
+            with open(filename, "r") as f:
+                lines = f.readlines()[1:]
+                for results in lines:
+                    words = results.split()
+                    drag = words[1]
+                    lift = words[2]
+                    numOfRatios += 1
+                    totRatio = += float(drag)/float(lift)
+    return totRatio/numOfRatios
+
+
 def gen_msh(angle, nodes, ref):
     name = "./run.sh " + str(angle) + " " + str(angle) + " 1 " + str(nodes) + " " + str(ref)
     print name
