@@ -12,7 +12,7 @@ def calc_ratio():
         if filename.endswith(".m"):
             name = "sudo chmod ugo+wrx " + filename
             subprocess.call(name, shell=True)
-            with open('/results/' + filename, "r") as f:
+            with open('results/' + filename, "r") as f:
                 lines = f.readlines()[1:]
                 for results in lines:
                     words = results.split()
