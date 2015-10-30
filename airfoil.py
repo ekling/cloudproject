@@ -29,10 +29,12 @@ def gen_msh(angle, nodes, ref):
     subprocess.call(name, shell=True)
 
 def convert():
-        for filename in os.listdir('/home/ubuntu/project/msh'):
-                if filename.endswith(".msh"):
-                        name = "dolfin-convert " + "/home/ubuntu/project/msh/" + filename + " /home/ubuntu/project/msh/" + filename + ".xml"
-                        subprocess.call(name, shell=True)
+    name = "sudo chown -R ubuntu /home/ubuntu/project/msh"
+    subprocess.call(name, shell=True)
+    for filename in os.listdir('/home/ubuntu/project/msh'):
+        if filename.endswith(".msh"):
+            name = "dolfin-convert " + "/home/ubuntu/project/msh/" + filename + " /home/ubuntu/project/msh/" + filename + ".xml"
+            subprocess.call(name, shell=True)
 
 
 @celery.task()
