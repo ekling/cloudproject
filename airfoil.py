@@ -41,7 +41,7 @@ def airfoil(angle, nodes, ref, samples, viscosity, speed, time):
     gen_msh(angle, nodes, ref)
 
     convert()
-/home/ubuntu/project
+
     for filename in os.listdir('/home/ubuntu/project/naca_airfoil/msh'):
         if "r" + str(ref) in filename and filename.endswith(".xml"):
             name = './home/ubuntu/project/navier_stokes_solver/airfoil ' + str(samples) + ' ' + str(viscosity) + ' ' + str(speed) + ' ' + str(time) + ' msh/' + filename
