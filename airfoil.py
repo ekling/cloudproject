@@ -10,7 +10,9 @@ def calc_ratio():
     totRatio = 0.0
     for filename in os.listdir('/home/ubuntu/project/results/'):
         if filename.endswith(".m"):
-            with open(filename, "r") as f:
+            name = "sudo chmod ugo+wrx " + filename
+            subprocess.call(name, shell=True)
+            with open('/navier_stokes_solver/' + filename, "r") as f:
                 lines = f.readlines()[1:]
                 for results in lines:
                     words = results.split()
