@@ -29,11 +29,11 @@ def gen_msh(angle, nodes, ref):
     subprocess.call(name, shell=True)
 
 def convert():
-    name = "sudo chown -R ubuntu /home/ubuntu/project/msh"
-    subprocess.call(name, shell=True)
     for filename in os.listdir('/home/ubuntu/project/msh'):
         if filename.endswith(".msh"):
-            name = "dolfin-convert " + "/home/ubuntu/project/msh/" + filename + " /home/ubuntu/project/msh/" + filename + ".xml"
+            name = "sudo chmod ugo+wrx " + filename
+            subprocess.call(name, shell=True)
+            name = "sudo dolfin-convert " + "/home/ubuntu/project/msh/" + filename + " /home/ubuntu/project/msh/" + filename + ".xml"
             subprocess.call(name, shell=True)
 
 
@@ -45,6 +45,8 @@ def airfoil(angle, nodes, ref, samples, viscosity, speed, time):
 
     for filename in os.listdir('/home/ubuntu/project/msh'):
         if "r" + str(ref) in filename and filename.endswith(".xml"):
+            name = "sudo chmod ugo+wrx " + filename
+            subprocess.call(name, shell=True)
             name = 'sudo ./home/ubuntu/project/navier_stokes_solver/airfoil ' + str(samples) + ' ' + str(viscosity) + ' ' + str(speed) + ' ' + str(time) + ' msh/' + filename
             #print name
             subprocess.call(name, shell=True)
