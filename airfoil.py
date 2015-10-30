@@ -5,7 +5,7 @@ from celery import Celery
 
 celery = Celery('airfoil', broker='amqp://worker:pw@{}/host'.format(os.environ['BROKER_IP']), backend='amqp')
 
-def calcRatio():
+def calc_ratio():
     numOfRatios = 0
     totRatio = 0.0
     for filename in os.listdir('/home/ubuntu/project/naca_airfoil/result/'):
@@ -37,7 +37,6 @@ def convert():
 
 @celery.task()
 def airfoil(angle, nodes, ref, samples, viscosity, speed, time):
-    print "got here"
     gen_msh(angle, nodes, ref)
 
     convert()
@@ -47,3 +46,5 @@ def airfoil(angle, nodes, ref, samples, viscosity, speed, time):
             name = './home/ubuntu/project/navier_stokes_solver/airfoil ' + str(samples) + ' ' + str(viscosity) + ' ' + str(speed) + ' ' + str(time) + ' msh/' + filename
             #print name
             subprocess.call(name, shell=True)
+
+    return calc_ratio()
