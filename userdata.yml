@@ -1,0 +1,23 @@
+#cloud-config
+
+package_update: true
+package_upgrade: true
+
+packages:
+    - git
+    - python-pip
+    - rabbitmq-server
+    - python-swiftclient
+
+runcmd:
+    - sudo git clone https://github.com/ekling/cloudproject.git /home/ubuntu/project
+    - cd /home/ubuntu/project
+    - sudo pip install -r requirements.txt
+    - sudo pip install flower
+    - rabbitmqctl add_user worker pw
+    - rabbitmqctl add_vhost host
+    - rabbitmqctl set_permissions -p host worker ".*" ".*" ".*"
+    - export C_FORCE_ROOT="true"
+    - export BROKER_IP="0.0.0.0"
+    - python airfoil_controller.py &
+    - celery flower -A airfoil &
