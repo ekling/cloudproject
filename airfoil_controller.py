@@ -66,8 +66,9 @@ def forms():
     msh_input = [int(angle_min), int(angle_max), int(num_angles), int(nodes), int(refinement)]
     airfoil_input = [int(samples), float(viscosity), int(speed), int(time)]
 
-    return calc_airfoil(msh_input, airfoil_input)
+    res = calc_airfoil(msh_input, airfoil_input)
 
+    return render_template('result.html', data=res)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
