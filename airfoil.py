@@ -8,7 +8,7 @@ celery = Celery('airfoil', broker='amqp://worker:pw@{}/host'.format(os.environ['
 def calc_ratio():
     numOfRatios = 0
     totRatio = 0.0
-    for filename in os.listdir('/home/ubuntu/project/naca_airfoil/result/'):
+    for filename in os.listdir('/home/ubuntu/project/result/'):
         if filename.endswith(".m"):
             with open(filename, "r") as f:
                 lines = f.readlines()[1:]
@@ -29,9 +29,9 @@ def gen_msh(angle, nodes, ref):
     subprocess.call(name, shell=True)
 
 def convert():
-        for filename in os.listdir('/home/ubuntu/project/naca_airfoil/msh'):
+        for filename in os.listdir('/home/ubuntu/project/msh'):
                 if filename.endswith(".msh"):
-                        name = "dolfin-convert " + "/home/ubuntu/project/naca_airfoil/msh/" + filename + " /home/ubuntu/project/naca_airfoil/msh/" + filename + ".xml"
+                        name = "dolfin-convert " + "/home/ubuntu/project/msh/" + filename + " /home/ubuntu/project/msh/" + filename + ".xml"
                         subprocess.call(name, shell=True)
 
 
@@ -41,7 +41,7 @@ def airfoil(angle, nodes, ref, samples, viscosity, speed, time):
 
     convert()
 
-    for filename in os.listdir('/home/ubuntu/project/naca_airfoil/msh'):
+    for filename in os.listdir('/home/ubuntu/project/msh'):
         if "r" + str(ref) in filename and filename.endswith(".xml"):
             name = './home/ubuntu/project/navier_stokes_solver/airfoil ' + str(samples) + ' ' + str(viscosity) + ' ' + str(speed) + ' ' + str(time) + ' msh/' + filename
             #print name
