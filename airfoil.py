@@ -8,7 +8,7 @@ celery = Celery('airfoil', broker='amqp://worker:pw@{}/host'.format(os.environ['
 def calc_ratio():
     numOfRatios = 0
     totRatio = 0.0
-    for filename in os.listdir('/home/ubuntu/project/result/'):
+    for filename in os.listdir('/home/ubuntu/project/results/'):
         if filename.endswith(".m"):
             with open(filename, "r") as f:
                 lines = f.readlines()[1:]
@@ -43,7 +43,7 @@ def airfoil(angle, nodes, ref, samples, viscosity, speed, time):
 
     for filename in os.listdir('/home/ubuntu/project/msh'):
         if "r" + str(ref) in filename and filename.endswith(".xml"):
-            name = './home/ubuntu/project/navier_stokes_solver/airfoil ' + str(samples) + ' ' + str(viscosity) + ' ' + str(speed) + ' ' + str(time) + ' msh/' + filename
+            name = 'sudo ./home/ubuntu/project/navier_stokes_solver/airfoil ' + str(samples) + ' ' + str(viscosity) + ' ' + str(speed) + ' ' + str(time) + ' msh/' + filename
             #print name
             subprocess.call(name, shell=True)
 
