@@ -14,6 +14,9 @@ runcmd:
     - pip install python-swiftclient
     - git clone https://github.com/ekling/cloudproject.git /home/ubuntu/project
     - cd /home/ubuntu/project
+    - mkdir msh
+    - mkdir geo
     - export C_FORCE_ROOT="true"
-    - export BROKER_IP="130.238.29.187"
+    - export LC_ALL="en_US.utf-8"
+    - export BROKER_IP="130.238.29.120"
     - celery worker -A airfoil --concurrency=1
