@@ -10,7 +10,6 @@ packages:
     - python-swiftclient
 
 runcmd:
-    - pip install requirements.txt
     - sudo git clone https://github.com/ekling/cloudproject.git /home/ubuntu/project
     - cd /home/ubuntu/project
     - pip install Flask
