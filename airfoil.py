@@ -29,7 +29,6 @@ def calc_ratio():
 
 def gen_msh(angle, nodes, ref):
     name = "./run.sh " + str(angle) + " " + str(angle) + " 1 " + str(nodes) + " " + str(ref)
-    print name
     subprocess.call(name, shell=True)
 
 def convert():
@@ -39,13 +38,18 @@ def convert():
             subprocess.call(name, shell=True)
             name = "sudo dolfin-convert " + "/home/ubuntu/project/msh/" + filename + " /home/ubuntu/project/msh/" + filename + ".xml"
             subprocess.call(name, shell=True)
-            subprocess.call("sudo rm -f msh/filename", shell=True)
+            name = 'sudo rm -f msh/' + filename
+            subprocess.call(name, shell=True)
 
 
 @celery.task()
 def airfoil(angle, nodes, ref, samples, viscosity, speed, time):
 
-    subprocess.call("sudo rm -f geo/*")
+    for filename in os.listdir('/home/ubuntu/project/geo'):
+        name = 'sudo chmod ugo+wrx ' + filename
+        subprocess.call(name, shell=True)
+        name = 'sudo rm -f geo/' + filename
+        subprocess.call(name, shell=True)
 
     gen_msh(angle, nodes, ref)
 
@@ -57,6 +61,7 @@ def airfoil(angle, nodes, ref, samples, viscosity, speed, time):
             subprocess.call(name, shell=True)
             name = 'sudo ./navier_stokes_solver/airfoil ' + str(samples) + ' ' + str(viscosity) + ' ' + str(speed) + ' ' + str(time) + ' msh/' + filename
             subprocess.call(name, shell=True)
-            subprocess.call("sudo rm -f msh/filename", shell=True)
+            name = 'sudo rm -f msh/' + filename
+            subprocess.call(name, shell=True)
 
     return calc_ratio()
