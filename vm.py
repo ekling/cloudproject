@@ -14,7 +14,7 @@ def init():
 def init_broker(nc):
 
     nc.keypairs.findall(name="emilKey")
-    ubuntu_image = nc.images.find(name='CprojBrokerSnap')
+    ubuntu_image = nc.images.find(name='G19_Broker_Image')
     flavor = nc.flavors.find(name='m1.medium')
 
     userdata = open('userdata.yml', 'r')
