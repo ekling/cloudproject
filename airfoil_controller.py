@@ -9,6 +9,13 @@ from vm import init_worker
 
 app = Flask(__name__)
 
+config = {'username':'klem2814',
+          'api_key':'x1xv6565',
+          'project_id':'ACC-Course',
+          'auth_url':'http://smog.uppmax.uu.se:5000/v2.0'}
+
+nc = Client('2',**config)
+
 db = pickledb.load('Completed.db',False)
 
 def start_workers(i, nr_workers, nc):
@@ -41,13 +48,6 @@ def divide_input(start, stop, steps):
     return angles
 
 def calc_airfoil(msh_input, airfoil_input):
-
-    config = {'username':'klem2814',
-              'api_key':'x1xv6565',
-              'project_id':'ACC-Course',
-              'auth_url':'http://smog.uppmax.uu.se:5000/v2.0'}
-
-    nc = Client('2',**config)
 
     angles = divide_input(msh_input[0], msh_input[1], msh_input[2])
     length_queue = len(angles)
