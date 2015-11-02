@@ -12,7 +12,7 @@ def calc_ratio():
     totRatio = 0.0
     for filename in os.listdir('/home/ubuntu/project/results/'):
         if filename.endswith(".m"):
-            name = "sudo chmod ugo+wrx " + filename
+            name = "sudo chmod ugo+wrx results/" + filename
             subprocess.call(name, shell=True)
             with open('results/' + filename, "r") as f:
                 lines = f.readlines()[1:]
@@ -35,23 +35,28 @@ def gen_msh(angle, nodes, ref):
 def convert():
     for filename in os.listdir('/home/ubuntu/project/msh'):
         if filename.endswith(".msh"):
-            name = "sudo chmod ugo+wrx " + filename
+            name = "sudo chmod ugo+wrx msh/" + filename
             subprocess.call(name, shell=True)
             name = "sudo dolfin-convert " + "/home/ubuntu/project/msh/" + filename + " /home/ubuntu/project/msh/" + filename + ".xml"
             subprocess.call(name, shell=True)
+            subprocess.call("sudo rm -f msh/filename", shell=True)
 
 
 @celery.task()
 def airfoil(angle, nodes, ref, samples, viscosity, speed, time):
+
+    subprocess.call("sudo rm -f geo/*")
+
     gen_msh(angle, nodes, ref)
 
     convert()
 
     for filename in os.listdir('/home/ubuntu/project/msh'):
         if "r" + str(ref) in filename and filename.endswith(".xml"):
-            name = "sudo chmod ugo+wrx " + filename
+            name = "sudo chmod ugo+wrx msh/" + filename
             subprocess.call(name, shell=True)
             name = 'sudo ./navier_stokes_solver/airfoil ' + str(samples) + ' ' + str(viscosity) + ' ' + str(speed) + ' ' + str(time) + ' msh/' + filename
             subprocess.call(name, shell=True)
+            subprocess.call("sudo rm -f msh/filename", shell=True)
 
     return calc_ratio()
