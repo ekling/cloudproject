@@ -75,5 +75,5 @@ def init_worker(i):
     workerdata.close()
 
 init_broker()
-for i in range(0, NUMBER_OF_WORKERS):
+for i in range(1, NUMBER_OF_WORKERS + 1):
     init_worker(i)

@@ -50,7 +50,6 @@ def airfoil(angle, nodes, ref, samples, viscosity, speed, time):
             name = "sudo chmod ugo+wrx " + filename
             subprocess.call(name, shell=True)
             name = 'sudo ./navier_stokes_solver/airfoil ' + str(samples) + ' ' + str(viscosity) + ' ' + str(speed) + ' ' + str(time) + ' msh/' + filename
-            #print name
             subprocess.call(name, shell=True)
 
     return calc_ratio()
