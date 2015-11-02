@@ -17,5 +17,5 @@ runcmd:
     - mkdir geo
     - export C_FORCE_ROOT="true"
     - export LC_ALL="en_US.utf-8"
-    - export BROKER_IP="130.238.29.140"
+    - export BROKER_IP="130.238.29.193"
     - celery worker -A airfoil -Ofair --concurrency=1

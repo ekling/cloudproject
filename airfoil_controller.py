@@ -5,16 +5,16 @@ from novaclient.client import Client
 from airfoil import airfoil
 from celery import group, subtask
 from flask import Flask, jsonify, request, redirect, render_template
-import vm
+from vm import init_worker
 
 app = Flask(__name__)
 
 db = pickledb.load('Completed.db',False)
 
-def start_workers(i, nr_workers):
+def start_workers(i, nr_workers, nc):
     while nr_workers < i:
         nr_workers += 1
-        init_worker(nr_worker)
+        init_worker(nr_worker, nc)
 
 def divide_input(start, stop, steps):
     diff = 0
@@ -42,19 +42,31 @@ def divide_input(start, stop, steps):
 
 def calc_airfoil(msh_input, airfoil_input):
 
+    config = {'username':'klem2814',
+              'api_key':'x1xv6565',
+              'project_id':'ACC-Course',
+              'auth_url':'http://smog.uppmax.uu.se:5000/v2.0'}
+
+    ### INITIATE BROKER ###
+    nc = Client('2',**config)
+
     angles = divide_input(msh_input[0], msh_input[1], msh_input[2])
     length_queue = len(angles)
 
-    nr_workers = len(nc.servers.findall(name='EmilWorker_'))
+    servers = nc.servers.findall()
+        nr_workers = 0
+        for server in servers:
+            if(server.name.startswith("EmilWorker")):
+                nr_workers += 1
 
     if length_queue < 3:
-        start_workers(1, nr_workers)
+        start_workers(1, nr_workers, nc)
     elif length_queue < 7:
-        start_workers(2, nr_workers)
+        start_workers(2, nr_workers, nc)
     elif length_queue < 13:
-        start_workers(3, nr_workers)
+        start_workers(3, nr_workers, nc)
     else:
-        start_workers(4, nr_workers)
+        start_workers(4, nr_workers, nc)
 
 
     queue = [airfoil.s(x, msh_input[3], y, airfoil_input[0], airfoil_input[1],

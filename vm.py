@@ -3,19 +3,20 @@ import time
 import fileinput
 from novaclient.client import Client
 
-config = {'username':'klem2814',
-          'api_key':'x1xv6565',
-          'project_id':'ACC-Course',
-          'auth_url':'http://smog.uppmax.uu.se:5000/v2.0'}
+def init():
+    config = {'username':'klem2814',
+              'api_key':'x1xv6565',
+              'project_id':'ACC-Course',
+              'auth_url':'http://smog.uppmax.uu.se:5000/v2.0'}
 
-### INITIATE BROKER ###
-nc = Client('2',**config)
-nc.keypairs.findall(name="emilKey")
-ubuntu_image = nc.images.find(name='Ubuntu Server 14.04 LTS (Trusty Tahr)')
-worker_image = nc.images.find(name='G19_Worker_Image')
-flavor = nc.flavors.find(name='m1.medium')
+    return nc = Client('2',**config)
 
-def init_broker():
+def init_broker(nc):
+
+    nc.keypairs.findall(name="emilKey")
+    ubuntu_image = nc.images.find(name='CprojBrokerSnap')
+    flavor = nc.flavors.find(name='m1.medium')
+
     userdata = open('userdata.yml', 'r')
 
     instance = nc.servers.create(name='EmilBroker', image=ubuntu_image, flavor=
@@ -49,8 +50,13 @@ def init_broker():
 
     with open('workerdata.yml', 'wb') as file:
         file.write(f_updated)
-def init_worker(i):
-### INITIATE WORKER(S) ###
+
+def init_worker(i, nc):
+
+    nc.keypairs.findall(name="emilKey")
+    worker_image = nc.images.find(name='G19_Worker_Image')
+    flavor = nc.flavors.find(name='m1.medium')
+
     workerdata = open('workerdata.yml', 'r')
 
     instance = nc.servers.create(name='EmilWorker_' + str(i), image=worker_image, flavor=
@@ -73,7 +79,9 @@ def init_worker(i):
     workerdata.close()
 
 if __name__ == '__main__':
+    nc = init()
     NUMBER_OF_WORKERS = input('Number of workers: ')
-    init_broker()
+
+    init_broker(nc)
     for i in range(1, NUMBER_OF_WORKERS + 1):
-        init_worker(i)
+        init_worker(i,nc)

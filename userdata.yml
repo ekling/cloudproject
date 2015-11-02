@@ -3,20 +3,9 @@
 package_update: true
 package_upgrade: true
 
-packages:
-    - git
-    - python-pip
-    - rabbitmq-server
-    - python-swiftclient
-
 runcmd:
     - sudo git clone https://github.com/ekling/cloudproject.git /home/ubuntu/project
     - cd /home/ubuntu/project
-    - pip install Flask
-    - pip install celery
-    - pip install python-swiftclient
-    - pip install python-novaclient
-    - pip install flower
     - pip install pickledb
     - rabbitmqctl add_user worker pw
     - rabbitmqctl add_vhost host
