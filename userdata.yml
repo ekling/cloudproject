@@ -16,6 +16,7 @@ runcmd:
     - pip install Flask
     - pip install celery
     - pip install flower
+    - pip install pickledb
     - rabbitmqctl add_user worker pw
     - rabbitmqctl add_vhost host
     - rabbitmqctl set_permissions -p host worker ".*" ".*" ".*"
