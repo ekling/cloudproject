@@ -93,7 +93,7 @@ def calc_airfoil(msh_input, airfoil_input):
 
     return result
 
-@app.route("/kill", methods=["POST"])
+@app.route("/kill", methods=["GET", "POST"])
 def kill():
     instances = nc.servers.findall()
     for instance in instances:
