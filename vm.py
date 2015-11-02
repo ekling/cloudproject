@@ -9,7 +9,7 @@ def init():
               'project_id':'ACC-Course',
               'auth_url':'http://smog.uppmax.uu.se:5000/v2.0'}
 
-    return nc = Client('2',**config)
+    return Client('2',**config)
 
 def init_broker(nc):
 
