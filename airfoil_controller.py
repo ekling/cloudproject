@@ -97,8 +97,8 @@ def calc_airfoil(msh_input, airfoil_input):
 def kill():
     instances = nc.servers.findall()
     for instance in instances:
-        if(server.name.startswith("EmilWorker")):
-          server.delete()
+        if(instance.name.startswith("EmilWorker")):
+          instance.delete()
 
     return render_template("forms.html")
 
