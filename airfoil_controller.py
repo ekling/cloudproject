@@ -14,7 +14,7 @@ db = pickledb.load('Completed.db',False)
 def start_workers(i, nr_workers, nc):
     while nr_workers < i:
         nr_workers += 1
-        init_worker(nr_worker, nc)
+        init_worker(nr_workers, nc)
 
 def divide_input(start, stop, steps):
     diff = 0
@@ -47,17 +47,27 @@ def calc_airfoil(msh_input, airfoil_input):
               'project_id':'ACC-Course',
               'auth_url':'http://smog.uppmax.uu.se:5000/v2.0'}
 
-    ### INITIATE BROKER ###
     nc = Client('2',**config)
 
     angles = divide_input(msh_input[0], msh_input[1], msh_input[2])
     length_queue = len(angles)
 
-    servers = nc.servers.findall()
-        nr_workers = 0
-        for server in servers:
-            if(server.name.startswith("EmilWorker")):
-                nr_workers += 1
+    instances = nc.servers.findall()
+    nr_workers = 0
+    for instance in instances:
+        if(instance.name.startswith("EmilWorker")):
+            nr_workers += 1
+
+    floating_ip = os.environ['FLOATING_IP']
+
+    float_ip = 'export BROKER_IP="{}"'.format(os.environ['FLOATING_IP'])
+
+    with open('workerdata_init.yml', 'r') as file:
+        f = file.read()
+    f_updated = f.replace('brokerip', float_ip)
+
+    with open('workerdata.yml', 'wb') as file:
+        file.write(f_updated)
 
     if length_queue < 3:
         start_workers(1, nr_workers, nc)

@@ -6,11 +6,11 @@ package_upgrade: true
 runcmd:
     - sudo git clone https://github.com/ekling/cloudproject.git /home/ubuntu/project
     - cd /home/ubuntu/project
-    - pip install pickledb
     - rabbitmqctl add_user worker pw
     - rabbitmqctl add_vhost host
     - rabbitmqctl set_permissions -p host worker ".*" ".*" ".*"
     - export C_FORCE_ROOT="true"
     - export BROKER_IP="0.0.0.0"
+    - export FLOATING_IP="$(curl ident.me)"
     - python airfoil_controller.py &
     - celery flower -A airfoil &

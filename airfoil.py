@@ -4,6 +4,8 @@ from subprocess import call
 from celery import Celery
 
 celery = Celery('airfoil', broker='amqp://worker:pw@{}/host'.format(os.environ['BROKER_IP']), backend='amqp')
+celery.conf.CELERY_ACKS_LATE = True
+celery.conf.CELERYD_PREFETCH_MULTIPLIER = 1
 
 def calc_ratio():
     numOfRatios = 0
