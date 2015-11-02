@@ -5,21 +5,16 @@ from novaclient.client import Client
 from airfoil import airfoil
 from celery import group, subtask
 from flask import Flask, jsonify, request, redirect, render_template
-from vm import init_worker, NUMBER_OF_WORKERS
-
-config = {'username':'klem2814',
-          'api_key':'x1xv6565',
-          'project_id':'ACC-Course',
-          'auth_url':'http://smog.uppmax.uu.se:5000/v2.0'}
+import vm
 
 app = Flask(__name__)
 
 db = pickledb.load('Completed.db',False)
 
-def start_workers(i):
-    while NUMBER_OF_WORKERS < i:
-        init_worker(NUMBER_OF_WORKERS + i)
-        NUMBER_OF_WORKERS += 1
+def start_workers(i, nr_workers):
+    while nr_workers < i:
+        nr_workers += 1
+        init_worker(nr_worker)
 
 def divide_input(start, stop, steps):
     diff = 0
@@ -50,16 +45,16 @@ def calc_airfoil(msh_input, airfoil_input):
     angles = divide_input(msh_input[0], msh_input[1], msh_input[2])
     length_queue = len(angles)
 
-    nr_workers = nc.servers.findall(name='EmilWorker_')
+    nr_workers = len(nc.servers.findall(name='EmilWorker_'))
 
     if length_queue < 3:
-        start_workers(1)
+        start_workers(1, nr_workers)
     elif length_queue < 7:
-        start_workers(2)
+        start_workers(2, nr_workers)
     elif length_queue < 13:
-        start_workers(3)
+        start_workers(3, nr_workers)
     else:
-        start_workers(4)
+        start_workers(4, nr_workers)
 
 
     queue = [airfoil.s(x, msh_input[3], y, airfoil_input[0], airfoil_input[1],

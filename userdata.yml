@@ -15,6 +15,7 @@ runcmd:
     - cd /home/ubuntu/project
     - pip install Flask
     - pip install celery
+    - pip install python-swiftclient
     - pip install flower
     - pip install pickledb
     - rabbitmqctl add_user worker pw

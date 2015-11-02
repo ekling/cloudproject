@@ -3,12 +3,10 @@ import time
 import fileinput
 from novaclient.client import Client
 
-NUMBER_OF_WORKERS = input('Number of workers: ')
-
-config = {'username':os.environ['OS_USERNAME'],
-          'api_key':os.environ['OS_PASSWORD'],
-          'project_id':os.environ['OS_TENANT_NAME'],
-          'auth_url':os.environ['OS_AUTH_URL']}
+config = {'username':'klem2814',
+          'api_key':'x1xv6565',
+          'project_id':'ACC-Course',
+          'auth_url':'http://smog.uppmax.uu.se:5000/v2.0'}
 
 ### INITIATE BROKER ###
 nc = Client('2',**config)
@@ -74,6 +72,8 @@ def init_worker(i):
 
     workerdata.close()
 
-init_broker()
-for i in range(1, NUMBER_OF_WORKERS + 1):
-    init_worker(i)
+if __name__ == '__main__':
+    NUMBER_OF_WORKERS = input('Number of workers: ')
+    init_broker()
+    for i in range(1, NUMBER_OF_WORKERS + 1):
+        init_worker(i)
