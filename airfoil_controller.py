@@ -93,6 +93,15 @@ def calc_airfoil(msh_input, airfoil_input):
 
     return result
 
+@app.route("/kill", methods=["POST"])
+def kill():
+    instances = nc.servers.findall()
+    for instance in instances:
+        if(server.name.startswith("EmilWorker")):
+          server.delete()
+
+    return render_template("forms.html")
+
 @app.route("/form", methods=["GET"])
 def init():
     return render_template("forms.html")

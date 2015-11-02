@@ -62,20 +62,6 @@ def init_worker(i, nc):
     instance = nc.servers.create(name='EmilWorker_' + str(i), image=worker_image, flavor=
                                 flavor, key_name='emilKey', userdata=workerdata)
 
-    status = instance.status
-    while status == 'BUILD':
-        print 'Worker_' + str(i) + ' is building...'
-        time.sleep(5)
-        instance = nc.servers.get(instance.id)
-        status = instance.status
-    ips = nc.floating_ips.list()
-    for ip in ips:
-        if ((getattr(ip, 'instance_id')) == None):
-                floating_ip = getattr(ip, 'ip')
-                break
-    ins = nc.servers.find(name='EmilWorker_' + str(i))
-    ins.add_floating_ip(floating_ip)
-
     workerdata.close()
 
 if __name__ == '__main__':
