@@ -21,7 +21,7 @@ db = pickledb.load('Completed.db',False)
 def start_workers(i, nr_workers, nc):
     while nr_workers < i:
         nr_workers += 1
-        #init_worker(nr_workers, nc)
+        init_worker(nr_workers, nc)
 
 def divide_input(start, stop, steps):
     diff = 0
