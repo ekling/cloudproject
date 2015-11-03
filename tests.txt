@@ -9,4 +9,6 @@ Input airfoil: 10 0.0001 10 0.5
 Input airfoil: 10 0.0001 10 1
 
 Starting with one worker. Dynamic scaling
-Angles: 
+4 Angles: 87.6sec (2 workers)
+8 Angles: 144.2sec (3 workers)
+16 Angles: 203.6sec (4 workers)
