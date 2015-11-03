@@ -71,9 +71,9 @@ def calc_airfoil(msh_input, airfoil_input):
 
     if length_queue < 3:
         start_workers(1, nr_workers, nc)
-    elif length_queue < 7:
+    elif length_queue < 5:
         start_workers(2, nr_workers, nc)
-    elif length_queue < 13:
+    elif length_queue < 9:
         start_workers(3, nr_workers, nc)
     else:
         start_workers(4, nr_workers, nc)
