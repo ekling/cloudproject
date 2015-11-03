@@ -1,0 +1,12 @@
+Input msh: 0 9 9 50 0 (10 angles)
+Input airfoil: 10 0.0001 10 0.5
+
+1 Workers: 180.2sec
+2 Workers: 103.5sec
+3 Workers: 82.7sec
+4 Workers: 69.1sec
+
+Input airfoil: 10 0.0001 10 1
+
+Starting with one worker. Dynamic scaling
+Angles: 
