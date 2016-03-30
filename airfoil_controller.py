@@ -9,8 +9,8 @@ from vm import init_worker
 
 app = Flask(__name__)
 
-config = {'username':'klem2814',
-          'api_key':'x1xv6565',
+config = {'username':'',
+          'api_key':'',
           'project_id':'ACC-Course',
           'auth_url':'http://smog.uppmax.uu.se:5000/v2.0'}
 
